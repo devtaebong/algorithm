@@ -1,7 +1,5 @@
 class Solution {
     public int solution(String before, String after) {
-        int answer = 0;
-        
         
         int beforeResult = 0;
         for(int i = 0; i < before.length(); i++) {

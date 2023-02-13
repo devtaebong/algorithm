@@ -8,24 +8,25 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        int[] arr = new int[n];
+        int count = 0;
         for (int i = 0; i < n; i++) {
             int num = Integer.parseInt(st.nextToken());
-            arr[i] = num;
+
+            if (isPrime(num)) count++;
+        }
+        System.out.println(count);
+    }
+
+    public static boolean isPrime(int num) {
+        if (num < 2) {
+            return false;
         }
 
-        int cnt = 0;
-        for (int i = 0; i < arr.length; i++) {
-            int num = arr[i];
-            if (num == 1) cnt++;
-            
-            for(int j = 2; j*j <= num; j++) {
-                if (num % j == 0) {
-                    cnt++;
-                    break;
-                }
+        for (int i = 2; i*i <= num; i++) {
+            if (num % i == 0) {
+                return false;
             }
         }
-        System.out.println(arr.length - cnt);
+        return true;
     }
 }

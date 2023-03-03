@@ -1,3 +1,4 @@
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -42,24 +43,26 @@ public class Main {
             return;
         }
 
-        for (int x=0; x<n; x++) {
-            for (int y=0; y<m; y++) {
+        for (int x = 0; x < n; x++) {
+            for (int y = 0; y < m; y++) {
                 if (visited[x][y]) continue;
                 boolean ok = true;
-                for (int i=0; i<4; i++) {
-                    int nx = x+dx[i];
-                    int ny = y+dy[i];
+
+                for (int i = 0; i < 4; i++) {
+                    int nx = x + dx[i];
+                    int ny = y + dy[i];
+
                     if (0 <= nx && nx < n && 0 <= ny && ny < m) {
                         if (visited[nx][ny]) ok = false;
                     }
                 }
+
                 if (ok) {
                     visited[x][y] = true;
-                    go(count+1, sum+grid[x][y]);
+                    go(count + 1, sum + grid[x][y]);
                     visited[x][y] = false;
                 }
             }
         }
     }
 }
-

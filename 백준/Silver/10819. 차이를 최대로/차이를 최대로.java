@@ -43,7 +43,7 @@ public class Main {
             i--;
         }
 
-        if (i <= 0) return false;
+        if (i == 0) return false;
 
         int j = arr.length-1;
         while (arr[i-1] >= arr[j]) {

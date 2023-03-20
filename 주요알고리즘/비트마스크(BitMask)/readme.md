@@ -126,20 +126,23 @@ bitmask |= (1 << 7); // 7번 원소가 포함됐으므로, 일곱 번째 비트�
 ```S = {1, 3, 4, 5, 9} = 570```
 #### S에 1 추가하기
 - ```570 | 2¹ = 570``` = ```570 | (1<<1)``` = ```570 (1000111010₂)``` <br>
-  <img width="367" alt="스크린샷 2023-03-20 오후 5 23 03" src="https://user-images.githubusercontent.com/96982575/226284490-1459de72-f4d2-4af4-a0ce-50099aff58eb.png">
+<img width="377" alt="스크린샷 2023-03-20 오후 5 48 44" src="https://user-images.githubusercontent.com/96982575/226290005-66b05f9c-e379-42e2-b6c3-0f956af7ca35.png">
 
 
 #### S에 2 추가하기
 - ```570 | 2² = 570``` = ```570 | (1<<2)``` = ```574 (1000111110₂)``` <br>
-  <img width="380" alt="스크린샷 2023-03-20 오후 5 19 55" src="https://user-images.githubusercontent.com/96982575/226284136-5d3b76bc-028f-4b5f-af6b-8de8b21724d0.png">
+<img width="380" alt="스크린샷 2023-03-20 오후 5 48 56" src="https://user-images.githubusercontent.com/96982575/226290029-78f83f7d-a725-4099-82ad-536536a34eea.png">
+
 
 #### S에 3 추가하기
 - ```574 | 2³ = 574``` = ```570 | (1<<3)``` = ```570 (1000111110₂)``` <br>
-  <img width="385" alt="스크린샷 2023-03-20 오후 5 20 45" src="https://user-images.githubusercontent.com/96982575/226284157-f4622f36-d7ff-4451-9611-3f6deb3ec168.png">
+<img width="375" alt="스크린샷 2023-03-20 오후 5 49 07" src="https://user-images.githubusercontent.com/96982575/226290089-fa4ec303-ba68-4168-87c8-1875ef7ca32e.png">
+
 
 #### S에 4 추가하기
 - ```570 | 2⁴ = 574``` = ```570 | (1<<4)``` = ```570 (1000111110₂)``` <br>
-  <img width="369" alt="스크린샷 2023-03-20 오후 5 23 18" src="https://user-images.githubusercontent.com/96982575/226284523-9aba2afd-dab2-40a8-8e33-6bfa1ba0c7f3.png">
+<img width="385" alt="스크린샷 2023-03-20 오후 5 49 22" src="https://user-images.githubusercontent.com/96982575/226290113-ff25f3fe-d248-4e95-9c31-f1ac07cdb406.png">
+
 
 #### 이미 있는 수가 추가되어도 OR 연산에 의해 같은 변함없이 1이다
 
@@ -164,5 +167,3 @@ bitmask |= (1 << 7); // 7번 원소가 포함됐으므로, 일곱 번째 비트�
 #### S에서 4 제거하기
 ``` 570 & ~2⁴``` = ```570 | ~(1<<4)``` = ```546 (1000101010₂)``` <br>
 <img width="373" alt="스크린샷 2023-03-20 오후 5 44 49" src="https://user-images.githubusercontent.com/96982575/226289071-fc8edee7-38d1-4ecd-8d02-8a5be03a1b7c.png">
-
-

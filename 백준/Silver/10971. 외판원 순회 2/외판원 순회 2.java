@@ -27,6 +27,7 @@ public class Main {
 
         int min = Integer.MAX_VALUE;
         do {
+            if (arr[0] != 1) break;
             int x = getCost(arr);
             if (min > x) {
                 min = x;

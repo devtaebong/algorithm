@@ -19,7 +19,7 @@ DP에서 Overlapping Subproblem이란 큰 문제를 해결할 때 작은 문제�
 이러한 중복 문제는 DP에서 계산 속도를 늦추는 주요 원인 중 하나이다.
 
 예를들어, 피보나치 수열을 구하는 문제를 생각해보면 피보나치 수열의 n번째 항을 구하는 문제는
-n-1번째 항과 n-2번째 항을 구하는 문제를 포함한다. 
+n-1번째 항과 n-2번째 항을 구하는 문제를 포함한다.
 이러한 소문제 계산 과정에서 반복적으로 사용되며 DP를 이용하여 효율적으로 문제를 해결할 수 있다.
 
 DP에서 Overlapping Subproblem이 발생하는 경우, 이전에 해결한 작은 문제의 결과를 저장하고 재활용함으로써 계산 속도를 높일 수 있다.
@@ -53,11 +53,11 @@ Bottom-Up 방식의 DP는 작은 문제에서 시작하여 계속해서 큰 문�
 ```java
 public static int fibonacci(int n) {
         if (n <= 1) {
-            return n;
+        return n;
         } else {
-            return fibonacci(n-1) + fibonacci(n-2);
+        return fibonacci(n-1) + fibonacci(n-2);
         }
-    }
+        }
 ```
 위의 코드의 시간복잡도는 O(2ⁿ)이다.
 
@@ -74,20 +74,20 @@ public static int fibonacci(int n) {
 이를 위해 Memoization 기법을 사용한다.
 ```java
 public static int fibonacci(int n) {
-    int[] memo = new int[n + 1];
-    return fibonacciMemo(n, memo);
-}
+        int[] memo = new int[n + 1];
+        return fibonacciMemo(n, memo);
+        }
 
 public static int fibonacciMemo(int n, int[] memo) {
-    if (n <= 1) {
+        if (n <= 1) {
         return n;
-    } else if (memo[n] != 0) {
+        } else if (memo[n] != 0) {
         return memo[n];
-    } else {
+        } else {
         memo[n] = fibonacciMemo(n-1, memo) + fibonacciMemo(n-2, memo);
         return memo[n];
-    }
-}
+        }
+        }
 ```
 위 코드에서 fibonacciMemo() 메서드를 이용하여 이미 계산된 값이 있는 경우 그 값을 반환하고,
 그렇지 않은 경우 계산 후 결과를 메모이제이션(저장)한다. 이렇게 하면 중복 계산을 피할 수 있기 때문에 실행시간을 크게 줄일 수 있다.
@@ -95,3 +95,18 @@ public static int fibonacciMemo(int n, int[] memo) {
 위 코드의 시간복잡도는 O(n)으로 훨씬 효율적이다. 이유는 fibonacciMemo() 메서드는 한 번 호출 되면
 memo 배열에 결과를 저장하기 때문에 같은 입력값으로 또 다시 호출되지 않는다. <br>
 따라서 각 입력값에 대해 한 번만 계산하게 되는 것이다.
+
+## 문제 풀이 전략
+어떤 문제를 DP로 풀기 위해서는 점화식을 구해야 한다. <br>
+여기서 점화식은 수열에서 각 항을 그 앞의 항으로 나타내는 관계식을 말한다.
+
+다이나믹프로그래밍에서는 큰 문제를 작은 하위 문제로 나누어서 해결하는데,
+이때 작은 문제들의 해를 구하기 위해서 점화식을 사용한다.
+작은 문제들의 해를 구하면 이를 저장해 놓고 재사용하여 큰 문제를 해결한다.
+
+피보나치 수열을 다이나믹프로그래밍으로 구현하면 각 항을 이전 두 항의 합으로 구한다.
+이를 점화식으로 나타내면 F(n) = F(n-1) + F(n-2)가 된다.
+
+따라서 다이나믹프로그래밍과 점화식은 서로 밀접한 관련이 있으며, 다이나믹프로그래밍에서는 주로 점화식을 이용하여 문제를 해결한다.
+
+

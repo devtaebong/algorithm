@@ -9,9 +9,10 @@ DP는 이러한 문제를 해결하는 데 효율적이며 중복되는 계산�
 
 DP는 일반적으로 재귀적인 방식으로 문제를 해결하며, 메모이제이션(Memoization)이라는 기법을 사용하여 중복계산을 피한다.
 이러한 방식으로 문제를 푸는것은 재귀적인 방식으로 푸는것 보다 메모리와 실행 시간을 크게 절약할 수 있다.
+<br>
 
 ## 다이나믹 프로그래밍 문제를 풀기위해 만족해야 하는 두가지 조건
-### Overlapping Subproblem (겹치는 작은 문제 (부분문제))
+### 1. Overlapping Subproblem (겹치는 작은 문제 (부분문제))
 DP에서 Overlapping Subproblem이란 큰 문제를 해결할 때 작은 문제들이 중복되어 반적으로 해결되는 현상을 의미한다.
 이러한 중복 문제는 DP에서 계산 속도를 늦추는 주요 원인 중 하나이다.
 
@@ -23,7 +24,7 @@ DP에서 Overlapping Subproblem이 발생하는 경우, 이전에 해결한 작�
 이러한 결과를 저장하기 위해 메모이제이션(Memoization)이라는 기법을 사용한다.
 
 
-### Optimal Substructure
+### 2. Optimal Substructure
 DP에서 Optimal Substructure는 큰 문제의 최적해(optimal solution)가 작은 문제의 최적해로부터 구해질 수 있는 성질을 의미한다.
 즉, 큰 문제를 이용하여 작은 문제의 최적해를 구할 수 있다는 것을 의미한다.
 

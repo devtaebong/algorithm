@@ -52,12 +52,12 @@ Bottom-Up 방식의 DP는 작은 문제에서 시작하여 계속해서 큰 문�
 ### Memoization을 사용하지 않은 피보나치 구현 메서드
 ```java
 public static int fibonacci(int n) {
-        if (n <= 1) {
-        return n;
-        } else {
-        return fibonacci(n-1) + fibonacci(n-2);
-        }
-        }
+     if (n <= 1) {
+     return n;
+     } else {
+     return fibonacci(n-1) + fibonacci(n-2);
+     }
+}
 ```
 위의 코드의 시간복잡도는 O(2ⁿ)이다.
 
@@ -74,20 +74,20 @@ public static int fibonacci(int n) {
 이를 위해 Memoization 기법을 사용한다.
 ```java
 public static int fibonacci(int n) {
-        int[] memo = new int[n + 1];
-        return fibonacciMemo(n, memo);
-        }
+     int[] memo = new int[n + 1];
+     return fibonacciMemo(n, memo);
+}
 
 public static int fibonacciMemo(int n, int[] memo) {
-        if (n <= 1) {
-        return n;
-        } else if (memo[n] != 0) {
-        return memo[n];
-        } else {
-        memo[n] = fibonacciMemo(n-1, memo) + fibonacciMemo(n-2, memo);
-        return memo[n];
-        }
-        }
+     if (n <= 1) {
+     return n;
+     } else if (memo[n] != 0) {
+     return memo[n];
+     } else {
+     memo[n] = fibonacciMemo(n-1, memo) + fibonacciMemo(n-2, memo);
+     return memo[n];
+     }
+}
 ```
 위 코드에서 fibonacciMemo() 메서드를 이용하여 이미 계산된 값이 있는 경우 그 값을 반환하고,
 그렇지 않은 경우 계산 후 결과를 메모이제이션(저장)한다. 이렇게 하면 중복 계산을 피할 수 있기 때문에 실행시간을 크게 줄일 수 있다.

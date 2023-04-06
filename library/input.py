@@ -12,3 +12,6 @@ for i in range(n):
 
 # 2차원 배열 초기화 - 리스트 컴프리헨션
 matrix2 = [list(map(int, input().split())) for _ in range(m)]
+
+# 더 빠르게 입력 받는 방법
+matrix = [list(map(int, sys.stdin.readline().rstrip())) for i in range(1, n+1)]

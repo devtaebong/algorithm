@@ -14,4 +14,4 @@ for i in range(n):
 matrix2 = [list(map(int, input().split())) for _ in range(m)]
 
 # 더 빠르게 입력 받는 방법
-matrix = [list(map(int, sys.stdin.readline().rstrip())) for i in range(1, n+1)]
+matrix = [list(map(int, sys.stdin.readline().rstrip())) for i in range(n)]

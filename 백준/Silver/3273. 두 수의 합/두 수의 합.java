@@ -30,18 +30,21 @@ public class Main {
             a[i] = Integer.parseInt(arr[i]);
         }
 
-        boolean[] exist = new boolean[1000001];
+        boolean[] check = new boolean[1000001];
         for (int i = 0; i < n; i++) {
-            exist[a[i]] = true;
+            check[a[i]] = true;
         }
 
-        int ans = 0;
+        int count = 0;
         for (int i = 0; i < n; i++) {
-            int pairValue = x-a[i];
+            int pairValue = x - a[i];
             if (0 <= pairValue && pairValue <= 1000000) {
-                ans += exist[pairValue] ? 1 : 0;
+                if (check[pairValue]) {
+                    count++;
+                }
             }
         }
-        System.out.println(ans/2);
+
+        System.out.println(count/2);
     }
 }

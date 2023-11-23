@@ -1,92 +1,102 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class Main {
+    /*
+        1. 아이디어
+        - 색이 다른 인접한 두 칸을 골라 교환한다.
+            - 아래, 오른쪽만 교환하면 됨
+            - 위, 왼쪽은 이전 단계에서 이미 교환해서 확인함
+        - 칸을 교환하면 사탕을 먹을수 있는 최대 개수를 확인한다
+
+        2. 시간복잡도
+        - 교환 -> O(N^2)
+        - 사탕개수 확인 -> O(N)
+        = O(N+N^2) => O(N^2)
+
+        3. 자료구조
+        char[][] -> 사탕을 담는 배열
+         */
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        // 1. 사탕을 입력받는다.
-        // 2. 인접한 두 칸을 골라 순서를 바꾼다.
-        // 3. 같은색으로 가장 긴 연속 부분을 고른다.
+        // 입력
         int n = Integer.parseInt(br.readLine());
-        String[][] board = new String[n][n];
-        for (int i = 0; i < board.length; i++) {
-            String str = br.readLine();
-            for (int j = 0; j < board.length; j++) {
-                board[i][j] = str.substring(j,j+1);
+        char[][] matrix = new char[n][n];
+        for (int i = 0; i < n; i++) {
+            String input = br.readLine();
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = input.charAt(j);
             }
         }
 
-        int result = 0;
-        // 임의의 칸을 하나 고른다
-        // 인접한 칸의 사탕과 교환한다
-        // 배열을 원래배열로 되돌린다.
-        for (int i = 0; i < board.length; i++) {
-            // 아래 칸의 사탕과 교환
-            for (int j = 0; j < board.length - 1; j++) {
-                String start = board[j][i];
-                String next = board[j+1][i];
-                board[j][i] = next;
-                board[j+1][i] = start;
-                int num = getMaxCandy(board);
-                if (result < num) {
-                    result = num;
+        int ans = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                // 오른쪽 교환
+                if (j+1 < n && matrix[i][j] != matrix[i][j+1]) {
+                    swapCandy(matrix, i, j, i, j + 1);
+                    int maxRowCount = findMaxRow(matrix);
+                    int maxColCount = findMaxColumn(matrix);
+                    ans = Math.max(ans, Math.max(maxRowCount, maxColCount));
+                    swapCandy(matrix, i, j, i, j + 1);
                 }
-                board[j][i] = start;
-                board[j+1][i] = next;
-            }
 
-            // 오른쪽 칸의 사탕과 교환
-            for (int j = 0; j < board.length - 1; j++) {
-                String start = board[i][j];
-                String next = board[i][j+1];
-                board[i][j] = next;
-                board[i][j+1] = start;
-                int num = getMaxCandy(board);
-                if (result < num) {
-                    result = num;
+                if (i+1 < n && matrix[i][j] != matrix[i+1][j]) {
+                    swapCandy(matrix, i, j, i+1, j);
+                    int maxRowCount = findMaxRow(matrix);
+                    int maxColCount = findMaxColumn(matrix);
+                    ans = Math.max(ans, Math.max(maxRowCount, maxColCount));
+                    swapCandy(matrix, i, j, i+1, j);
                 }
-                board[i][j] = start;
-                board[i][j+1] = next;
             }
         }
 
-        System.out.println(result);
+        System.out.println(ans);
     }
 
-    public static int getMaxCandy(String[][] board) {
-        int answer = 0;
+    public static void swapCandy(char[][] matrix, int r1, int c1, int r2, int c2) {
+        char temp = matrix[r1][c1];
+        matrix[r1][c1] = matrix[r2][c2];
+        matrix[r2][c2] = temp;
+    }
 
-        int count = 1;
-        // 행에서 연속되는 사탕 개수 찾기
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[i].length-1; j++) {
-                if (board[i][j].equals(board[i][j+1])) {
-                    count++;
-                } else {
-                    count = 1;
-                }
-                if (answer < count) {
-                    answer = count;
+    public static int findMaxColumn(char[][] matrix) {
+        int n = matrix.length;
+        int maxCol = 0;
+
+        for (int c = 0; c < n; c++) {
+            int len = 1;
+            for (int r = 1; r < n; r++) {
+                if (matrix[r][c] == matrix[r-1][c]) len++;
+                else {
+                    maxCol = Math.max(maxCol, len);
+                    len = 1;
                 }
             }
-            count = 1;
+            maxCol = Math.max(maxCol, len);
         }
+        return maxCol;
+    }
 
-        // 열에서 연속되는 사탕 개수 찾기
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board.length - 1; j++) {
-                if (board[j][i].equals(board[j+1][i])) {
-                    count++;
-                } else {
-                    count = 1;
-                }
-                if (answer < count) {
-                    answer = count;
+    public static int findMaxRow(char[][] matrix) {
+        int n = matrix.length;
+        int maxRow = 0;
+
+        for (int r = 0; r < n; r++) {
+            int len = 1;
+            for (int c = 1; c < n; c++) {
+                if (matrix[r][c] == matrix[r][c-1]) len++;
+                else {
+                    maxRow = Math.max(maxRow, len);
+                    len = 1;
                 }
             }
-            count = 1;
+            maxRow = Math.max(maxRow, len);
         }
-
-        return answer;
+        return maxRow;
     }
 }

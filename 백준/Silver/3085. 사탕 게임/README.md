@@ -1,14 +1,18 @@
-# [Silver III] 사탕 게임 - 3085 
+# [Silver II] 사탕 게임 - 3085 
 
 [문제 링크](https://www.acmicpc.net/problem/3085) 
 
 ### 성능 요약
 
-메모리: 15336 KB, 시간: 372 ms
+메모리: 14212 KB, 시간: 168 ms
 
 ### 분류
 
-브루트포스 알고리즘(bruteforcing), 구현(implementation)
+브루트포스 알고리즘, 구현
+
+### 제출 일자
+
+2023년 11월 23일 15:07:49
 
 ### 문제 설명
 

@@ -17,16 +17,13 @@ public class Main {
 
         String[] distinctArr = Arrays.stream(str).distinct().toArray(String[]::new);
 
-        Arrays.sort(distinctArr, new Comparator<String>() {
-            public int compare(String o1, String o2) {
-                // 길이가 같다면 사전순
-                if (o1.length() == o2.length()) {
-                    return o1.compareTo(o2);
-                }
-
-                // 길이가 짧은것 리턴
-                return o1.length() - o2.length();
+        Arrays.sort(distinctArr, (o1, o2) -> {
+            // 길이가 같다면 사전순
+            if (o1.length() == o2.length()) {
+                return o1.compareTo(o2);
             }
+            // 길이가 짧은것 리턴
+            return o1.length() - o2.length();
         });
 
         for (int i = 0; i < distinctArr.length; i++) {

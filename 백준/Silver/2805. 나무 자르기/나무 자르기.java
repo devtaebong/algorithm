@@ -44,10 +44,10 @@ public class Main {
         while (l <= r) {
             int h = (l + r) / 2;
 
-            long cuttingLength = calculateCuttingLength(trees, h);
+//            long cuttingLength = calculateCuttingLength(trees, h);
             // 자른 나무의 길이가 M보다 크면 h 높이기
             // 값 저장
-            if (cuttingLength >= M) {
+            if (isPossible(trees, h, M)) {
                 l = h + 1;
                 res = h;
             }
@@ -59,15 +59,14 @@ public class Main {
         System.out.println(res);
     }
 
-    // 절단기로 자른 나무의 합
-    public static long calculateCuttingLength(int[] trees, int h) {
-        long res = 0;
-        for (int i = 0; i < trees.length; i++) {
-            int tree = trees[i];
-            if (tree - h > 0) {
-                res += tree - h;
+    // 판정함수
+    public static boolean isPossible(int[] trees, int cutHeight, int M) {
+        long sum = 0;
+        for (int tree : trees) {
+            if (tree > cutHeight) {
+                sum += tree - cutHeight;
             }
         }
-        return res; // 자른 나무 길이의 합
+        return sum >= M;
     }
 }

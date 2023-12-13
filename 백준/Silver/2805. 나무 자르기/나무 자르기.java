@@ -43,8 +43,6 @@ public class Main {
         int r = trees[N - 1];
         while (l <= r) {
             int h = (l + r) / 2;
-
-//            long cuttingLength = calculateCuttingLength(trees, h);
             // 자른 나무의 길이가 M보다 크면 h 높이기
             // 값 저장
             if (isPossible(trees, h, M)) {
@@ -60,13 +58,16 @@ public class Main {
     }
 
     // 판정함수
-    public static boolean isPossible(int[] trees, int cutHeight, int M) {
-        long sum = 0;
-        for (int tree : trees) {
-            if (tree > cutHeight) {
-                sum += tree - cutHeight;
+    public static boolean isPossible(int[] trees, int h, int M) {
+        long res = 0;
+
+        for (int i = 0; i < trees.length; i++) {
+            int tree = trees[i];
+            if (tree - h > 0) {
+                res += tree - h;
             }
         }
-        return sum >= M;
+
+        return res >= M;
     }
 }

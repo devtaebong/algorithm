@@ -68,7 +68,6 @@ public class Main {
         int currentAmount = 0;
 
         for (int price : account) {
-            if (price > drawPrice) return false;
             if (currentAmount < price) {
                 if (drawCount == m) return false;
                 drawCount++;

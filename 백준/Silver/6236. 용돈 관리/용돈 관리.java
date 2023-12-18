@@ -63,17 +63,18 @@ public class Main {
         System.out.println(res);
     }
 
-    public static boolean isPossible(int[] useAmounts, int drawAmount, int maxDrawCount) {
-        int drawCount = 1;
-        int currentAmount = drawAmount;
-        for (int useAmount : useAmounts) {
-            if (useAmount > drawAmount) return false;
-            if (currentAmount < useAmount) {
-                if (drawCount == maxDrawCount) return false;
+    public static boolean isPossible(int[] account, int drawPrice, int m) {
+        int drawCount = 0;
+        int currentAmount = 0;
+
+        for (int price : account) {
+            if (price > drawPrice) return false;
+            if (currentAmount < price) {
+                if (drawCount == m) return false;
                 drawCount++;
-                currentAmount = drawAmount;
+                currentAmount = drawPrice;
             }
-            currentAmount -= useAmount;
+            currentAmount -= price;
         }
         return true;
     }

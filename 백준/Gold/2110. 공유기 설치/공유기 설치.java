@@ -61,22 +61,12 @@ public class Main {
                 l = mid + 1;
                 distance = mid;
             }
-
             else {
                 r = mid - 1;
             }
         }
-
-        // 1, 2, 4, 8, 9
-        int res = Integer.MAX_VALUE;
-        int target = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            if (arr[i] - target >= distance) {
-                res = Math.min(res, arr[i] - target);
-                target = arr[i];
-            }
-        }
-        System.out.println(res);
+        
+        System.out.println(distance);
     }
 
     public static int getCount(int[] arr, int d) {

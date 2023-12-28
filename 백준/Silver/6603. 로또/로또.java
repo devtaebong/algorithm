@@ -1,53 +1,52 @@
-
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+
 public class Main {
-    static boolean[] ch;
     static int[] arr;
     static int[] res;
+    static boolean[] check;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
-            String testCase = br.readLine();
-            if (testCase.equals("0")) break;
-
-            String[] input = testCase.split(" ");
-            int n = Integer.parseInt(input[0]);
-            ch = new boolean[n];
+            String readLine = br.readLine();
+            if (readLine.equals("0")) break;
+            int[] input = Arrays.stream(readLine.split(" "))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+            int n = input[0];
             arr = new int[n];
-            res = new int[6];
-            for (int i = 0; i < n; i++) {
-                arr[i] = Integer.parseInt(input[i+1]);
+            check = new boolean[n];
+
+            for (int i = 1; i < n + 1; i++) {
+                arr[i - 1] = input[i];
             }
 
-            Arrays.sort(arr);
-            go(0, 0);
+            solve(0 ,0);
             System.out.println();
         }
     }
 
-    private static void go(int idx, int k) {
-        if (idx == 6) {
-            // 수열을 출력
-            for (int i = 0; i < res.length; i++) {
-                System.out.print(res[i] +" ");
+    public static void solve(int index, int count) {
+        if (count == 6) {
+            for (int i = 0; i < check.length; i++) {
+                if (check[i]) {
+                    System.out.print(arr[i] + " ");
+                }
             }
             System.out.println();
-            return;
         }
 
-        for (int i = k; i < arr.length; i++) {
-            if (!ch[i]) {
-                ch[i] = true;
-                res[idx] = arr[i];
-                go(idx+1, i+1);
-                ch[i] = false;
+        for (int i = index; i < arr.length; i++) {
+            if (!check[i]) {
+                check[i] = true;
+                solve(i + 1, count + 1);
+                check[i] = false;
             }
         }
     }

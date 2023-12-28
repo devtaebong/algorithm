@@ -3,6 +3,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 
@@ -35,10 +37,28 @@ public class Main {
         for (int i = 1; i < n + 1; i++) {
             if (!check[i]) {
                 count++;
-                dfs(i);
+//                dfs(i);
+                bfs(i);
             }
         }
         System.out.println(count);
+    }
+
+    static Queue<Integer> q;
+    public static void bfs(int node) {
+        q = new LinkedList<>();
+        q.offer(node);
+        check[node] = true;
+
+        while(!q.isEmpty()) {
+            int now = q.poll();
+            for (int i = 1; i < graph[now].length; i++) {
+                if (graph[now][i] == 1 && !check[i]) {
+                    check[i] = true;
+                    q.add(i);
+                }
+            }
+        }
     }
 
     public static void dfs(int node) {

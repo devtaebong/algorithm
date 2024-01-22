@@ -31,57 +31,29 @@ public class Main {
                     .toArray();
             int a = input[0];
             int b = input[1];
-            char[] command = {'d', 's', 'l', 'r'};
+            char[] command = {'D', 'S', 'L', 'R'};
             boolean[] visit = new boolean[10000];
+            visit[a] = true;
 
             Queue<Point> q = new LinkedList<>();
             q.add(new Point(a, new StringBuilder()));
             while (!q.isEmpty()) {
                 Point now = q.poll();
-                if (visit[now.num]) {
-                    continue;
-                }
-
-                visit[now.num] = true;
-
                 if (now.num == b) {
                     System.out.println(now.cmd);
                     break;
                 }
 
+                visit[now.num] = true;
+                int[] next = {now.calD(), now.calS(), now.calL(), now.calR()};
                 for (int i = 0; i < 4; i++) {
-                    if (command[i] == 'd') {
-                        q.add(new Point(d(now.num), new StringBuilder().append(now.cmd).append("D")));
-                    }
-                    else if (command[i] == 's') {
-                        q.add(new Point(s(now.num), new StringBuilder().append(now.cmd).append("S")));
-                    }
-                    else if (command[i] == 'l') {
-                        q.add(new Point(l(now.num), new StringBuilder().append(now.cmd).append("L")));
-                    }
-                    else if (command[i] == 'r') {
-                        q.add(new Point(r(now.num), new StringBuilder().append(now.cmd).append("R")));
+                    if (!visit[next[i]]) {
+                        visit[next[i]] = true;
+                        q.add(new Point(next[i], new StringBuilder().append(now.cmd).append(command[i])));
                     }
                 }
             }
         }
-    }
-
-    public static int d(int n) {
-        return n * 2 % 10000;
-    }
-
-    public static int s(int n) {
-        if (n == 0) return 9999;
-        return n - 1;
-    }
-
-    public static int l(int n) {
-        return n % 1000 * 10 + n / 1000;
-    }
-
-    public static int r(int n) {
-        return (n / 10) + n % 10 * 1000;
     }
 }
 
@@ -92,5 +64,22 @@ class Point {
     public Point(int num, StringBuilder cmd) {
         this.num = num;
         this.cmd = cmd;
+    }
+
+    public int calD() {
+        return (num * 2) % 10000;
+    }
+
+    public int calS() {
+        if (num == 0) return 9999;
+        return num - 1;
+    }
+
+    public int calL() {
+        return (num % 1000) * 10 + num / 1000;
+    }
+
+    public int calR() {
+        return (num % 10) * 1000 + num / 10;
     }
 }

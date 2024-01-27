@@ -29,30 +29,21 @@ public class Main {
 
             int count = 0;
             for (int i = 1; i < n + 1; i++) {
-                count += dfs(i, i);
+                if (!check[i]) {
+                    dfs(i);
+                    count++;
+                }
             }
             System.out.println(count);
         }
     }
 
-    public static int dfs(int startNum, int index) {
-        // 1 -> 3(arr[1]) -> 7(arr[3]) -> 5(arr[7]) -> 1(arr[5])
-        /*
-        1, 2, 3, 4, 5, 6, 7, 8
-        3, 2, 7, 8, 1, 4, 5, 6
-         */
+    public static void dfs(int node) {
+        check[node] = true;
 
-        check[index] = true;
-
-        int nextNum = arr[index];
-        if (startNum == nextNum) {
-            return 1;
+        int nextNode = arr[node];
+        if (!check[nextNode]) {
+            dfs(nextNode);
         }
-
-        if (check[nextNum]) {
-            return 0;
-        }
-
-        return dfs(startNum, nextNum);
     }
 }

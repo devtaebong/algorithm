@@ -9,45 +9,51 @@ N줄에 0 ~ 9 숫자가 세개씩 적혀있음
 첫줄의 숫자를 골라 바로 아래수로 이동하거나 바로 아래수와 붙어있는 수로 이동 가능
 
 dp[i][j] = max(dp[i - 1][nc] + matrix[i][j], dp[i][j])
+
+300000 x 4
+1200 kb
  */
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        int[][] matrix = new int[n][3];
+
+        int[] dpMax = new int[5];
+        int[] tempMax = new int[5];
+        int[] dpMin = new int[5];
+        int[] tempMin = new int[5];
+
+        dpMin[0] = 1000001;
+        dpMin[4] = 1000001;
+
+        /*
+        temp[x] = max(d[x - 1] + arr[x], d[x] + arr[x], d[x + 1] + arr[x])
+        d[x] = temp[x]
+
+        6 8 9
+         */
+
         for (int i = 0; i < n; i++) {
-            matrix[i] = Arrays.stream(br.readLine().split(" "))
+            // 12 Byte
+            int[] arr = Arrays.stream(br.readLine().split(" "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
-        }
 
-        int[][] dpMax = new int[n][3];
-        int[][] dpMin = new int[n][3];
-
-        for (int i = 0; i < n; i++) {
-            Arrays.fill(dpMin[i], Integer.MAX_VALUE);
-        }
-        dpMax[0] = matrix[0];
-        dpMin[0] = matrix[0];
-
-        int[] dc = {-1, 0, 1};
-        for (int i = 1 ; i < n; i++) {
-            for (int j = 0; j < 3; j++) {
-                for (int k = 0; k < 3; k++) {
-                    int nc = dc[k] + j;
-                    if (nc >= 3 || nc < 0) {
-                        continue;
-                    }
-
-                    dpMax[i][j] = Math.max(dpMax[i - 1][nc] + matrix[i][j], dpMax[i][j]);
-                    dpMin[i][j] = Math.min(dpMin[i - 1][nc] + matrix[i][j], dpMin[i][j]);
-                }
+            for (int j = 1; j <= 3; j++) {
+                tempMax[j] = arr[j - 1] + Math.max(dpMax[j - 1], Math.max(dpMax[j], dpMax[j + 1]));
+                tempMin[j] = arr[j - 1] + Math.min(dpMin[j - 1], Math.min(dpMin[j], dpMin[j + 1]));
             }
+
+            for (int j = 1; j <= 3; j++) {
+                dpMax[j] = tempMax[j];
+                dpMin[j] = tempMin[j];
+            }
+
         }
 
-        int max = Math.max(dpMax[n - 1][0], Math.max(dpMax[n - 1][1], dpMax[n - 1][2]));
-        int min = Math.min(dpMin[n - 1][0], Math.min(dpMin[n - 1][1], dpMin[n - 1][2]));
+        int max = Math.max(dpMax[1], Math.max(dpMax[2], dpMax[3]));
+        int min = Math.min(dpMin[1], Math.min(dpMin[2], dpMin[3]));
 
         System.out.println(max + " " + min);
     }

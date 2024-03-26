@@ -55,11 +55,11 @@ public class Main {
 
                 // 벽이 없는 경우
                 if (matrix[nr][nc] == 0) {
-                    dp[nr][nc] = Math.min(dp[nr][nc], dp[now.r][now.c]);
+                    dp[nr][nc] = dp[now.r][now.c];
                     pq.offer(new Edge(nr, nc, dp[nr][nc]));
                 }
                 else {
-                    dp[nr][nc] = Math.min(dp[now.r][now.c] + 1, dp[nr][nc]);
+                    dp[nr][nc] = dp[now.r][now.c] + 1;
                     pq.offer(new Edge(nr, nc, dp[nr][nc]));
                 }
             }

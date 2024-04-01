@@ -1,47 +1,54 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
-    static int n, m;
+    static int n;
+    static int m;
     static int[] numbers;
-    static int[] output;
     static boolean[] check;
+    static int[] output;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] s = br.readLine().split(" ");
-        n = Integer.parseInt(s[0]);
-        m = Integer.parseInt(s[1]);
+        int[] nm = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+
+        n = nm[0];
+        m = nm[1];
+        numbers = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .sorted()
+                .toArray();
+
         check = new boolean[n];
-        output = new int[m];
-
-        String[] input = br.readLine().split(" ");
-        numbers = Arrays.stream(input).mapToInt(Integer::parseInt).toArray();
-        Arrays.sort(numbers);
-
-        recursive(0, 0);
+        output = new int[n];
+        dfs(0, 0, new int[m]);
     }
 
-    public static void recursive(int depth, int start) {
+    public static void dfs(int depth, int start, int[] output) {
         // base case
         if (depth == m) {
-            // 출력
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < m; i++) {
+            for (int i = 0; i < output.length; i++) {
                 sb.append(output[i]).append(" ");
             }
             System.out.println(sb);
             return;
         }
 
-        // recursive case
+        // [1, 7, 8, 9]
         for (int i = start; i < n; i++) {
-            if (!check[i]) {
-                check[i] = true;
-                output[depth] = numbers[i];
-                recursive(depth + 1, i + 1);
-                check[i] = false;
+            if (check[i]) {
+                continue;
             }
+
+            check[i] = true;
+            output[depth] = numbers[i];
+            dfs(depth + 1, i + 1, output);
+            check[i] = false;
         }
     }
 }

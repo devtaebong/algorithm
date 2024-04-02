@@ -1,53 +1,53 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
+/*
+1 ~ 49 중 k개 선택
+k개 중 6개를 선택할 수 있는 경우의 수
 
+ */
 public class Main {
-    static int[] arr;
-    static int[] res;
+    static int k;
+    static int[] s;
     static boolean[] check;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         while (true) {
-            String readLine = br.readLine();
-            if (readLine.equals("0")) break;
-            int[] input = Arrays.stream(readLine.split(" "))
+            int[] input = Arrays.stream(br.readLine().split(" "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
-            int n = input[0];
-            arr = new int[n];
-            check = new boolean[n];
 
-            for (int i = 1; i < n + 1; i++) {
-                arr[i - 1] = input[i];
+            k = input[0];
+            if (k == 0) break;
+            s = new int[k];
+            for (int i = 0; i < k; i++) {
+                s[i] = input[i + 1];
             }
+            check = new boolean[k];
 
-            solve(0 ,0);
+            dfs(0, 0, "");
             System.out.println();
         }
     }
 
-    public static void solve(int index, int count) {
-        if (count == 6) {
-            for (int i = 0; i < check.length; i++) {
-                if (check[i]) {
-                    System.out.print(arr[i] + " ");
-                }
-            }
-            System.out.println();
+    private static void dfs(int depth, int start, String res) {
+        if (depth == 6) {
+            System.out.println(res);
+            return;
         }
 
-        for (int i = index; i < arr.length; i++) {
-            if (!check[i]) {
-                check[i] = true;
-                solve(i + 1, count + 1);
-                check[i] = false;
+        for (int i = start; i < k; i++) {
+            if (check[i]) {
+                continue;
             }
+
+            check[i] = true;
+            dfs(depth + 1, i + 1, res + s[i] + " ");
+            check[i] = false;
         }
     }
 }

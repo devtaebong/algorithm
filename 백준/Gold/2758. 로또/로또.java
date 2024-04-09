@@ -3,50 +3,56 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-/*
-1 ~ m 까지 n개의 수 고른다
-이전에 고른 수보다 2배 이상 수만 고를 수 있음
- */
 public class Main {
-    private static int n;
-    private static int m;
-    private static long[][] dp;
+    static int n;
+    static int m;
+    static long[][] memo;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int t = Integer.parseInt(br.readLine());
-        while (t-- > 0) {
+        int tc = Integer.parseInt(br.readLine());
+        while (tc-- > 0) {
             int[] nm = Arrays.stream(br.readLine().split(" "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
+
             n = nm[0];
             m = nm[1];
 
-            // row: 고른 수의 갯수, col: 마지막 값
-            dp = new long[n + 1][m + 1];
-            for (int i = 0; i < n + 1; i++) {
-                Arrays.fill(dp[i], -1);
+            memo = new long[n + 1][m + 1];
+            for (int i = 0; i <= n; i++) {
+                Arrays.fill(memo[i], -1);
             }
 
-            long res = dfs(n, m);
-            System.out.println(res);
+            solution();
         }
     }
 
-    private static long dfs(int i, int last) {
-        if (i == 1) {
-            return last;
-        }
+    // 1 ~ m 까지 숫자 중 n개 고르기
+    private static void solution() {
+        System.out.println(dfs(n, m));
+    }
 
-        if (last <= 0) {
+
+    /**
+     *
+     * @param i 현재 depth의 인덱스
+     * @param now 현재 depth의 원소
+     * @return last에서 고를 수 있는 로또 개수
+     */
+    private static long dfs(int i, int now) {
+        if (now == 0) {
             return 0;
         }
 
-        if (dp[i][last] == -1) {
-            dp[i][last] = dfs(i - 1, last / 2) + dfs(i, last - 1);
+        if (i == 1) {
+            return now;
         }
 
-        return dp[i][last];
+        if (memo[i][now] == -1) {
+            memo[i][now] = dfs(i - 1, now / 2) + dfs(i, now - 1);
+        }
+
+        return memo[i][now];
     }
 }

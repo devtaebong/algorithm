@@ -16,49 +16,43 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         input();
-        solution(1);
+        solution(1, numbers[1]);
         sb.append(max).append("\n").append(min);
         System.out.println(sb);
     }
 
     // k번째 순서의 연산자를 계산한다.
-    public static void solution(int k) {
+    public static void solution(int k, int value) {
         if (k == N) {
-            int res = calculator();
-            max = Math.max(res, max);
-            min = Math.min(res, min);
-        }
-
-        else {
-            for (int i = 1; i <= 4; i++) {
-                if (command[i] != 0) {
-                    command[i]--;
-                    orders[k] = i;
-                    solution(k + 1);
-                    command[i]++;
-                    orders[k] = 0;
+            max = Math.max(max, value);
+            min = Math.min(min, value);
+        } else {
+            for (int cand = 1; cand <= 4; cand++) {
+                if (command[cand] > 0) {
+                    command[cand]--;
+                    int newValue = calculator(value, numbers[k + 1], cand);
+                    solution(k + 1, newValue);
+                    command[cand]++;
                 }
             }
         }
     }
 
-    private static int calculator() {
-        int value = numbers[1];
-        for (int i = 1; i < orders.length; i++) {
-            if (orders[i] == 1) {
-                value += numbers[i + 1];
-            }
-            if (orders[i] == 2) {
-                value -= numbers[i + 1];
-            }
-            if (orders[i] == 3) {
-                value *= numbers[i + 1];
-            }
-            if (orders[i] == 4) {
-                value /= numbers[i + 1];
-            }
+    private static int calculator(int operand1, int operand2, int operator) {
+        int res = operand1;
+        if (operator == 1) {
+            res += operand2;
         }
-        return value;
+        if (operator == 2) {
+            res -= operand2;
+        }
+        if (operator == 3) {
+            res *= operand2;
+        }
+        if (operator == 4) {
+            res /= operand2;
+        }
+        return res;
     }
 
     private static void input() throws IOException {

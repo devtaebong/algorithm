@@ -3,65 +3,56 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 
-/*
-R: 세로
-C: 가로
-(1, 1)에는 말이 놓여이음
-말은 상하좌우 이동 가능
-새로 이동할 칸에 적힌 알파벳은 지금까지 지나온 모든 칸에 적혀있는 알파벳과 달라야함
--> 같은 알파벳을 두 번 지날 수 없음
-말이 최대한 이동할 수 있는 칸은?
- */
 public class Main {
-    static int[][] matrix;
-    static boolean[] check = new boolean[27];
-    static int count = -1;
-    static int r;
-    static int c;
+    static int R;
+    static int C;
+    static char[][] matrix;
+    static boolean[] visit; // 특정 알파벳 방문 여부를 체트 ex) visit[0] = A, visit[1] = B;
+    static int res = Integer.MIN_VALUE;
+    static int[] dr = {-1, 1, 0, 0};
+    static int[] dc = {0, 0, -1, 1};
 
     public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int[] rc = Arrays.stream(br.readLine().split(" "))
-                .mapToInt(Integer::parseInt)
-                .toArray();
-        r = rc[0];
-        c = rc[1];
-
-        matrix = new int[r + 1][c + 1];
-        for (int i = 0; i < r; i++) {
-            String s = br.readLine();
-            for (int j = 0; j < c; j++) {
-                matrix[i + 1][j + 1] = s.charAt(j) - 'A' + 1;
-            }
-        }
-        check[matrix[1][1]] = true;
-        System.out.println(dfs(1, 1));
-
+        input();
+        solution(1 , 1, 1);
+        System.out.println(res);
     }
 
-    private static int dfs(int cr, int cc) {
-        int result = 0;
-        int[] dr = {-1, 1, 0, 0};
-        int[] dc = {0, 0, 1, -1};
+    public static void solution(int r, int c, int depth) {
+        res = Math.max(depth, res);
 
         for (int i = 0; i < 4; i++) {
-            int nr = dr[i] + cr;
-            int nc = dc[i] + cc;
-
-            if (0 >= nr || nr > r || 0 >= nc || nc > c) {
+            int nr = r + dr[i];
+            int nc = c + dc[i];
+            if (!(1 <= nr && nr <= R && 1 <= nc && nc <= C)) {
                 continue;
             }
 
-            if (check[matrix[nr][nc]]) {
-                continue;
+            char next = matrix[nr][nc];
+            if (!visit[next - 65]) {
+                visit[next - 65] = true;
+                solution(nr, nc, depth + 1);
+                visit[next - 65] = false;
             }
-
-            check[matrix[nr][nc]] = true;
-            result = Math.max(result, dfs(nr, nc));
-            check[matrix[nr][nc]] = false;
-
         }
-        return result + 1;
+    }
+
+    public static void input() throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int[] rc = Arrays.stream(br.readLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        R = rc[0];
+        C = rc[1];
+
+        matrix = new char[R + 1][C + 1];
+
+        for (int i = 0; i < R; i++) {
+            String s = br.readLine();
+            for (int j = 0; j < s.length(); j++) {
+                matrix[i + 1][j + 1] = s.charAt(j);
+            }
+        }
+
+        visit = new boolean[26];
+        visit[matrix[1][1] - 65] = true;
     }
 }

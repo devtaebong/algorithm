@@ -1,51 +1,48 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        int[] A = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        int n = Integer.parseInt(br.readLine());
-        String[] s = br.readLine().split(" ");
-        int[] arr = new int[n];
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(s[i]);
-        }
+        int M = Integer.parseInt(br.readLine());
+        int[] B = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        Arrays.sort(arr);
-        int m = Integer.parseInt(br.readLine());
-        String[] input = br.readLine().split(" ");
-
-        for (int i = 0; i < m; i++) {
-            int x = Integer.parseInt(input[i]);
-            boolean result = isExist(arr, x);
-
-            if (result) {
-                System.out.println(1);
-            } else {
-                System.out.println(0);
-            }
-        }
-
+        solution(A, B);
     }
 
-    // 집합에 x라는 값이 있는지?
-    public static boolean isExist(int[] arr, int x) {
+    public static void solution(int[] A, int[] B) {
+        Arrays.sort(A);
+
+        for (int value : B) {
+            System.out.println(binarySearch(value, A));
+        }
+    }
+
+    public static int binarySearch(int value, int[] arr) {
         int l = 0;
         int r = arr.length - 1;
 
-        while(l <= r) {
+        while (l <= r) {
             int mid = (l + r) / 2;
-            if (arr[mid] < x) {
+
+            if (arr[mid] < value) {
                 l = mid + 1;
             }
-            else if (arr[mid] > x) {
+            else if (arr[mid] > value) {
                 r = mid - 1;
             }
-            else {
-                return true;
-            }
+            else return 1;
         }
-        return false;
+        return 0;
     }
 }

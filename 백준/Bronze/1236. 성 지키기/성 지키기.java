@@ -1,59 +1,54 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
+    static int n;
+    static int m;
+    static String[][] matrix;
 
-    /*
-    1. 아이디어
-    - 경비원이 없는 row와 col 구하기
-    - row와 col -> 최소값 출력
-
-    2. 시간복잡도
-    입력: O(NM)
-    알고리즘: O(NM)
-    => O(NM)
-     */
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] input = br.readLine().split(" ");
-        int n = Integer.parseInt(input[0]);
-        int m = Integer.parseInt(input[1]);
+        int[] NM = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        // 입력
-        char[][] matrix = new char[n][m];
+        n = NM[0];
+        m = NM[1];
+        matrix = new String[n][m];
         for (int i = 0; i < n; i++) {
-            String s = br.readLine();
+            String[] arr = br.readLine().split("");
             for (int j = 0; j < m; j++) {
-                char ch = s.charAt(j);
-                matrix[i][j] = ch;
+                matrix[i][j] = arr[j];
             }
         }
 
-        int row = 0;
+        // 보호가 필요한 row의 개수를 구한다
+        int protectedRow = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                if (matrix[i][j] == 'X') {
-                    row++;
+                if (matrix[i][j].equals("X")) {
+                    protectedRow++;
                     break;
                 }
             }
         }
 
-        // n = 5, m = 8
-        int col = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (matrix[j][i] == 'X') {
-                    col++;
+        // 보호가 필요한 col의 개수를 구한다
+        int protectedCol = 0;
+        for (int c = 0; c < m; c++) {
+            for (int r = 0; r < n; r++) {
+                if (matrix[r][c].equals("X")) {
+                    protectedCol++;
                     break;
                 }
             }
         }
 
-        int needRow = n - row;
-        int needCol = m - col;
+        int needRow = n - protectedRow;
+        int needCol = m - protectedCol;
+
         System.out.println(Math.max(needRow, needCol));
     }
 }

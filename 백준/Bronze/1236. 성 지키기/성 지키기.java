@@ -24,30 +24,26 @@ public class Main {
             }
         }
 
-        // 보호가 필요한 row의 개수를 구한다
-        int protectedRow = 0;
+        boolean[] protectedRow = new boolean[n];
+        boolean[] protectedCol = new boolean[m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 if (matrix[i][j].equals("X")) {
-                    protectedRow++;
-                    break;
+                    protectedRow[i] = true;
+                    protectedCol[j] = true;
                 }
             }
         }
 
-        // 보호가 필요한 col의 개수를 구한다
-        int protectedCol = 0;
-        for (int c = 0; c < m; c++) {
-            for (int r = 0; r < n; r++) {
-                if (matrix[r][c].equals("X")) {
-                    protectedCol++;
-                    break;
-                }
-            }
-        }
+        int needRow = n;
+        int needCol = m;
 
-        int needRow = n - protectedRow;
-        int needCol = m - protectedCol;
+        for (int i = 0; i < n; i++) {
+            if (protectedRow[i]) needRow--;
+        }
+        for (int i = 0; i < m; i++) {
+            if (protectedCol[i]) needCol--;
+        }
 
         System.out.println(Math.max(needRow, needCol));
     }

@@ -1,36 +1,42 @@
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
 public class Main {
+
+    static boolean res;
+    static int[] arr;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        String[] s = br.readLine().split(" ");
-        long n = Integer.parseInt(s[0]);
-        int b = Integer.parseInt(s[1]);
+        int[] NB = Arrays.stream(br.readLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
+        int N = NB[0];
+        int B = NB[1];
 
-        /*
-        - n을 b로 나눈 나머지를 구한다.
-        - n이 0이 될때까지 반복
-        - 나눈 나머지를 역순으로 출력
-         */
+        char[] arr = new char[36];
 
-        String result = "";
-        while (n != 0) {
-            int mod = (int) n % b;
+        for (int i = 0; i < 26; i++) {
+            arr[i + 10] = (char) (65 + i);
+        }
+
+        StringBuilder sb = new StringBuilder();
+        while(N > 0) {
+            int mod = N % B;
             if (mod < 10) {
-                result += mod;
+                sb.append(mod);
             } else {
-                result += (char) (mod + 'A' - 10);
+                sb.append(arr[mod]);
             }
-            n = n / b;
+            N /= B;
         }
 
-        for (int i = result.length() - 1; i >= 0 ; i--) {
-            System.out.print(result.charAt(i));
+        String str = sb.toString();
+        StringBuilder res = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            res.append(str.charAt(i));
         }
+        System.out.println(res);
     }
 }

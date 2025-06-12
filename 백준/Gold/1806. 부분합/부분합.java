@@ -1,46 +1,55 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
 public class Main {
+    static int n;
+    static int s;
+    static int[] arr;
+    static int min;
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int[] input = Arrays.stream(br.readLine().split(" "))
+        int[] nm = Arrays.stream(br.readLine().split(" "))
                 .mapToInt(Integer::parseInt)
                 .toArray();
 
-        int n = input[0];
-        int s = input[1];
+        n = nm[0];
+        s = nm[1];
 
-        int[] arr = Arrays.stream(br.readLine().split(" "))
+        arr = Arrays.stream(br.readLine().split(" "))
                 .mapToInt(Integer::parseInt)
                 .toArray();
 
-        // 투포인터 => O(N)
-        // 5 1 3 5 10 7 4 9 2 8 => 15이상 되는 수 중 가장 짧은 것의 길이
-        // 5 1 3 5 10
-        // 1 3 5 10
+        min = Integer.MAX_VALUE;
 
-        int res = Integer.MAX_VALUE;
+        solve();
+
+        int res = min == Integer.MAX_VALUE ? 0 : min;
+        System.out.println(res);
+    }
+
+    public static void solve() {
         int currentSum = arr[0];
         int r = 0;
+
         for (int l = 0; l < n; l++) {
-            // 현재합이 s보다 작으면
-                // r 인덱스 한 칸 이동, count++
-            while (r < n - 1 && currentSum < s) {
+            while (currentSum < s) {
                 r++;
+                if (r > n - 1) {
+                    break;
+                }
+
                 currentSum += arr[r];
             }
 
             if (currentSum >= s) {
-                res = Math.min(res, r - l + 1);
+                int len = r - l + 1;
+                min = Math.min(len, min);
             }
 
             currentSum -= arr[l];
         }
-
-        if (res == Integer.MAX_VALUE) {
-            res = 0;
-        }
-        System.out.println(res);
     }
 }
